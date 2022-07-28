@@ -17,9 +17,9 @@ FROM teachers
 JOIN assistance_requests ON teachers.id = assistance_requests.teacher_id
 JOIN students ON students.id = assistance_requests.student_id
 JOIN cohorts ON cohorts.id = students.cohort_id
-WHERE cohorts.name LIKE '%${process.argv[2]}%'
+WHERE cohorts.name LIKE $1
 GROUP BY teacher, cohort
-ORDER BY teacher;`)
+ORDER BY teacher;`,[process.argv[2]])
   .then(res => res.rows.forEach((data) => {
     console.log(`${data.cohort}: ${data.teacher}`)
   }));
